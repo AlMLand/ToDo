@@ -36,4 +36,24 @@ public class ToDoTest extends ToDoTestUtils {
         Assert.assertEquals(expectedInput, actualInput);
     }
 
+    @Test
+    public void cancelAddNewTask() {
+        driver.findElement(AppiumBy.id("com.example.yeshasprabhakar.todo:id/fab")).click();
+
+        String expectedTitle = "Lets add new task!";
+        String actualTitle = driver.findElement(AppiumBy.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/" +
+                "android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/androidx.appcompat.widget.LinearLayoutCompat/" +
+                "android.widget.LinearLayout/android.widget.LinearLayout/android.widget.TextView")).getText();
+        Assert.assertEquals(expectedTitle, actualTitle);
+
+        driver.findElement(AppiumBy.id("android:id/button2")).click();
+        String expectedText = "What do you want to do today?";
+        String fullText = driver.findElement(AppiumBy.id("com.example.yeshasprabhakar.todo:id/emptyTextView")).getText();
+        String separatorWithDelimiter = "(?<=[?])";
+        int firstPartId = 0;
+        String actualText = fullText.split(separatorWithDelimiter)[firstPartId];
+
+        Assert.assertEquals(expectedText, actualText);
+    }
+
 }
