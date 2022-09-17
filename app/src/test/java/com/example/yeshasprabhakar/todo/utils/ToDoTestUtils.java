@@ -6,6 +6,7 @@ import org.junit.Before;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
@@ -41,6 +42,7 @@ public class ToDoTestUtils {
 
         try {
             driver = new AndroidDriver(new URL(URL), options);
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         } catch (MalformedURLException e) {
             throw new RuntimeException(String.format("AndroidDriver URL is invalid, error message [%s]", e.getMessage()));
         }
