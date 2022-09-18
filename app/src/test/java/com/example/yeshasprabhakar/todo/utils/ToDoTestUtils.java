@@ -2,6 +2,8 @@ package com.example.yeshasprabhakar.todo.utils;
 
 import org.junit.After;
 import org.junit.Before;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -52,6 +54,15 @@ public class ToDoTestUtils {
     public void stopAppiumServiceAndAndroidDriver() {
         driver.quit();
         service.stop();
+    }
+
+    /**
+     * Create a screen shot from current point.
+     *
+     * @return the byte array
+     */
+    protected byte[] createScreenShot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.yeshasprabhakar.todo;
 
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.ADD_NEW_TASK;
+import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DAY_NIGHT_MODE;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DELETE_TASK;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DESCRIPTION_MESSAGE;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.LISTED_TASK;
@@ -10,13 +11,15 @@ import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_INPUT
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_TITLE;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.TASK_NAME;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.TOAST_MESSAGE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import com.example.yeshasprabhakar.todo.utils.ToDoTestUtils;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import io.appium.java_client.AppiumBy;
@@ -32,15 +35,15 @@ public class ToDoTest extends ToDoTestUtils {
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
 
-        Assert.assertEquals(expectedTitle, actualTitle);
+        assertEquals(expectedTitle, actualTitle);
         driver.findElement(AppiumBy.id(NEW_TASK_INPUT.getLocator())).sendKeys(expectedInput);
         driver.findElement(AppiumBy.id(NEW_TASK_DONE.getLocator())).click();
         Collection<WebElement> actualWebElements = driver.findElements(AppiumBy.xpath(LISTED_TASK.getLocator()));
 
-        Assert.assertEquals(expectedWebElements, actualWebElements.size());
+        assertEquals(expectedWebElements, actualWebElements.size());
         String actualInput = driver.findElement(AppiumBy.id(TASK_NAME.getLocator())).getText();
 
-        Assert.assertEquals(expectedInput, actualInput);
+        assertEquals(expectedInput, actualInput);
     }
 
     @Test
@@ -52,13 +55,13 @@ public class ToDoTest extends ToDoTestUtils {
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
 
-        Assert.assertEquals(expectedTitle, actualTitle);
+        assertEquals(expectedTitle, actualTitle);
         driver.findElement(AppiumBy.id(NEW_TASK_CANCEL.getLocator())).click();
         String fullText = driver.findElement(AppiumBy.id(DESCRIPTION_MESSAGE.getLocator())).getText();
         int firstPartId = 0;
         String actualText = fullText.split(separatorWithDelimiter)[firstPartId];
 
-        Assert.assertEquals(expectedText, actualText);
+        assertEquals(expectedText, actualText);
     }
 
     @Test
@@ -69,11 +72,11 @@ public class ToDoTest extends ToDoTestUtils {
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
 
-        Assert.assertEquals(expectedTitle, actualTitle);
+        assertEquals(expectedTitle, actualTitle);
         driver.findElement(AppiumBy.id(NEW_TASK_DONE.getLocator())).click();
         String actualMessage = driver.findElement(AppiumBy.xpath(TOAST_MESSAGE.getLocator())).getText();
 
-        Assert.assertEquals(expectedMessage, actualMessage);
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
@@ -86,21 +89,39 @@ public class ToDoTest extends ToDoTestUtils {
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
 
-        Assert.assertEquals(expectedTitle, actualTitle);
+        assertEquals(expectedTitle, actualTitle);
         driver.findElement(AppiumBy.id(NEW_TASK_INPUT.getLocator())).sendKeys(expectedInput);
         driver.findElement(AppiumBy.id(NEW_TASK_DONE.getLocator())).click();
         Collection<WebElement> actualWebElements = driver.findElements(AppiumBy.xpath(LISTED_TASK.getLocator()));
-        
-        Assert.assertEquals(expectedWebElements, actualWebElements.size());
+
+        assertEquals(expectedWebElements, actualWebElements.size());
         String actualInput = driver.findElement(AppiumBy.id(TASK_NAME.getLocator())).getText();
 
-        Assert.assertEquals(expectedInput, actualInput);
+        assertEquals(expectedInput, actualInput);
         driver.findElement(AppiumBy.id(DELETE_TASK.getLocator())).click();
-        // TODO : how make explicit wait; PROBLEM : the old toast is still there
+        // TODO : how make explicit wait; PROBLEM : the old toast is still there and newer not yet
         Thread.sleep(2000);
         String actualDeleteMessage = driver.findElement(AppiumBy.xpath(TOAST_MESSAGE.getLocator())).getText();
 
-        Assert.assertEquals(expectedDeleteMessage, actualDeleteMessage);
+        assertEquals(expectedDeleteMessage, actualDeleteMessage);
+    }
+
+    @Test
+    public void dayNightModeTest() throws InterruptedException {
+        String input = "Test";
+
+        // make the app non-interactive for the test in 3 steps
+        driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
+        driver.findElement(AppiumBy.id(NEW_TASK_INPUT.getLocator())).sendKeys(input);
+        driver.findElement(AppiumBy.id(NEW_TASK_DONE.getLocator())).click();
+        // TODO : how make explicit wait; PROBLEM : wait until the toast is gone
+        Thread.sleep(2000);
+
+        byte[] screenshotDayMode = createScreenShot();
+        driver.findElement(AppiumBy.id(DAY_NIGHT_MODE.getLocator())).click();
+        byte[] screenshotNightMode = createScreenShot();
+
+        assertFalse(Arrays.equals(screenshotDayMode, screenshotNightMode));
     }
 
 }
