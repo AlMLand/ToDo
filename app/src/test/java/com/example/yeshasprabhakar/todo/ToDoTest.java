@@ -18,7 +18,10 @@ import com.example.yeshasprabhakar.todo.utils.ToDoTestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +53,7 @@ public class ToDoTest extends ToDoTestUtils {
         String separatorWithDelimiter = "(?<=[?])";
         String expectedTitle = "Lets add new task!";
         String expectedText = "What do you want to do today?";
+        int firstPartId = 0;
 
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
@@ -57,7 +61,6 @@ public class ToDoTest extends ToDoTestUtils {
 
         driver.findElement(AppiumBy.id(NEW_TASK_CANCEL.getLocator())).click();
         String fullText = driver.findElement(AppiumBy.id(DESCRIPTION_MESSAGE.getLocator())).getText();
-        int firstPartId = 0;
         String actualText = fullText.split(separatorWithDelimiter)[firstPartId];
         assertEquals(expectedText, actualText);
     }
@@ -82,6 +85,7 @@ public class ToDoTest extends ToDoTestUtils {
         String expectedInput = "Test";
         int expectedToDosCount = 1;
         String expectedDeleteMessage = "Deleted Successfully!";
+        String attribute = "text";
 
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
@@ -99,8 +103,10 @@ public class ToDoTest extends ToDoTestUtils {
             }
         }
 
-        // TODO : how make explicit wait; PROBLEM : the old toast is still there and newer not yet
-        Thread.sleep(2000);
+        WebDriverWait driverWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        driverWait.until(ExpectedConditions
+                .attributeContains(AppiumBy.xpath(TOAST_MESSAGE.getLocator()), attribute, expectedDeleteMessage));
+
         String actualDeleteMessage = driver.findElement(AppiumBy.xpath(TOAST_MESSAGE.getLocator())).getText();
         assertEquals(expectedDeleteMessage, actualDeleteMessage);
     }
@@ -113,8 +119,9 @@ public class ToDoTest extends ToDoTestUtils {
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         driver.findElement(AppiumBy.id(NEW_TASK_INPUT.getLocator())).sendKeys(input);
         driver.findElement(AppiumBy.id(NEW_TASK_DONE.getLocator())).click();
-        // TODO : how make explicit wait; PROBLEM : wait until the toast is gone
-        Thread.sleep(2000);
+
+        WebDriverWait driverWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        driverWait.until(ExpectedConditions.invisibilityOf(driver.findElement(AppiumBy.xpath(TOAST_MESSAGE.getLocator()))));
 
         byte[] screenshotDayMode = createScreenShot();
         driver.findElement(AppiumBy.id(DAY_NIGHT_MODE.getLocator())).click();
