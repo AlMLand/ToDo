@@ -4,23 +4,23 @@ import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.ADD_NEW_TASK;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DAY_NIGHT_MODE;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DELETE_TASK;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DESCRIPTION_MESSAGE;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.LISTED_TASK;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_CANCEL;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_DONE;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_INPUT;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_TITLE;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.TASK_NAME;
+import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.TASK_TITLE;
 import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.TOAST_MESSAGE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import com.example.yeshasprabhakar.todo.utils.ToDoTestUtils;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 import io.appium.java_client.AppiumBy;
 
@@ -30,19 +30,18 @@ public class ToDoTest extends ToDoTestUtils {
     public void addNewTaskTest() {
         String expectedTitle = "Lets add new task!";
         String expectedInput = "Test";
-        int expectedWebElements = 1;
+        int expectedToDosCount = 1;
 
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
-
         assertEquals(expectedTitle, actualTitle);
+
         driver.findElement(AppiumBy.id(NEW_TASK_INPUT.getLocator())).sendKeys(expectedInput);
         driver.findElement(AppiumBy.id(NEW_TASK_DONE.getLocator())).click();
-        Collection<WebElement> actualWebElements = driver.findElements(AppiumBy.xpath(LISTED_TASK.getLocator()));
+        List<WebElement> actualToDos = driver.findElements(AppiumBy.id(TASK_TITLE.getLocator()));
+        Assert.assertEquals(expectedToDosCount, actualToDos.size());
 
-        assertEquals(expectedWebElements, actualWebElements.size());
-        String actualInput = driver.findElement(AppiumBy.id(TASK_NAME.getLocator())).getText();
-
+        String actualInput = driver.findElement(AppiumBy.id(TASK_TITLE.getLocator())).getText();
         assertEquals(expectedInput, actualInput);
     }
 
@@ -54,13 +53,12 @@ public class ToDoTest extends ToDoTestUtils {
 
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
-
         assertEquals(expectedTitle, actualTitle);
+
         driver.findElement(AppiumBy.id(NEW_TASK_CANCEL.getLocator())).click();
         String fullText = driver.findElement(AppiumBy.id(DESCRIPTION_MESSAGE.getLocator())).getText();
         int firstPartId = 0;
         String actualText = fullText.split(separatorWithDelimiter)[firstPartId];
-
         assertEquals(expectedText, actualText);
     }
 
@@ -71,11 +69,10 @@ public class ToDoTest extends ToDoTestUtils {
 
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
-
         assertEquals(expectedTitle, actualTitle);
+
         driver.findElement(AppiumBy.id(NEW_TASK_DONE.getLocator())).click();
         String actualMessage = driver.findElement(AppiumBy.xpath(TOAST_MESSAGE.getLocator())).getText();
-
         assertEquals(expectedMessage, actualMessage);
     }
 
@@ -83,26 +80,28 @@ public class ToDoTest extends ToDoTestUtils {
     public void addNewTaskAndDelete() throws InterruptedException {
         String expectedTitle = "Lets add new task!";
         String expectedInput = "Test";
-        int expectedWebElements = 1;
+        int expectedToDosCount = 1;
         String expectedDeleteMessage = "Deleted Successfully!";
 
         driver.findElement(AppiumBy.id(ADD_NEW_TASK.getLocator())).click();
         String actualTitle = driver.findElement(AppiumBy.id(NEW_TASK_TITLE.getLocator())).getText();
-
         assertEquals(expectedTitle, actualTitle);
+
         driver.findElement(AppiumBy.id(NEW_TASK_INPUT.getLocator())).sendKeys(expectedInput);
         driver.findElement(AppiumBy.id(NEW_TASK_DONE.getLocator())).click();
-        Collection<WebElement> actualWebElements = driver.findElements(AppiumBy.xpath(LISTED_TASK.getLocator()));
+        List<WebElement> actualToDos = driver.findElements(AppiumBy.id(TASK_TITLE.getLocator()));
+        Assert.assertEquals(expectedToDosCount, actualToDos.size());
 
-        assertEquals(expectedWebElements, actualWebElements.size());
-        String actualInput = driver.findElement(AppiumBy.id(TASK_NAME.getLocator())).getText();
+        for (int i = 0; i < actualToDos.size(); i++) {
+            String toDoTitle = actualToDos.get(i).getText();
+            if (toDoTitle.equals(expectedInput)) {
+                driver.findElements(AppiumBy.id(DELETE_TASK.getLocator())).get(i).click();
+            }
+        }
 
-        assertEquals(expectedInput, actualInput);
-        driver.findElement(AppiumBy.id(DELETE_TASK.getLocator())).click();
         // TODO : how make explicit wait; PROBLEM : the old toast is still there and newer not yet
         Thread.sleep(2000);
         String actualDeleteMessage = driver.findElement(AppiumBy.xpath(TOAST_MESSAGE.getLocator())).getText();
-
         assertEquals(expectedDeleteMessage, actualDeleteMessage);
     }
 
@@ -120,7 +119,6 @@ public class ToDoTest extends ToDoTestUtils {
         byte[] screenshotDayMode = createScreenShot();
         driver.findElement(AppiumBy.id(DAY_NIGHT_MODE.getLocator())).click();
         byte[] screenshotNightMode = createScreenShot();
-
         assertFalse(Arrays.equals(screenshotDayMode, screenshotNightMode));
     }
 
