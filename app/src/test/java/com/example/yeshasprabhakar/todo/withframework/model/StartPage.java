@@ -19,12 +19,26 @@ public class StartPage extends Actions {
     @CacheLookup
     @AndroidFindBy(id = "com.example.yeshasprabhakar.todo:id/fab")
     private WebElement addNewToDoButton;
+    @CacheLookup
+    @AndroidFindBy(id = "com.example.yeshasprabhakar.todo:id/emptyTextView")
+    private WebElement startPageDescriptionText;
 
     public StartPage(final AndroidDriver driver) {
         super(driver);
         this.driver = driver;
         this.toDo = new ToDo(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+    }
+
+    public String getStartPageDescriptionTextOnlyFirstRow() {
+        String fullText = startPageDescriptionText.getText();
+        String separatorWithDelimiter = "(?<=[?])";
+        int firstPartId = 0;
+        return fullText.split(separatorWithDelimiter)[firstPartId];
+    }
+
+    public String getStartPageDescriptionText() {
+        return startPageDescriptionText.getText();
     }
 
     public List<String> getAllToDoTitles() {

@@ -20,10 +20,18 @@ public class FillForm {
     @CacheLookup
     @AndroidFindBy(id = "android:id/button1")
     private WebElement doneButton;
+    @CacheLookup
+    @AndroidFindBy(id = "android:id/button2")
+    private WebElement cancelButton;
 
     public FillForm(final AndroidDriver driver) {
         this.driver = driver;
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+    }
+
+    public StartPage clickCancel() {
+        cancelButton.click();
+        return new StartPage(driver);
     }
 
     public StartPage clickDone() {

@@ -32,4 +32,18 @@ public class ToDoTest extends TestConfig {
         assertTrue(allToDoTitles.contains(expectedInput));
     }
 
+    @Test
+    public void cancelAddNewTaskTest() {
+        String expectedTitle = "Lets add new task!";
+        String expectedText = "What do you want to do today?";
+
+        StartPage startPage = new StartPage(driver);
+        FillForm fillForm = startPage.goToFillForm();
+        assertEquals(expectedTitle, fillForm.getFillFormTitle());
+
+        startPage = fillForm.clickCancel();
+        String actualText = startPage.getStartPageDescriptionTextOnlyFirstRow();
+        assertEquals(expectedText, actualText);
+    }
+
 }
