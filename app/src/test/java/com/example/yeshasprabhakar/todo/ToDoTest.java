@@ -49,7 +49,7 @@ public class ToDoTest extends ToDoTestUtils {
     }
 
     @Test
-    public void cancelAddNewTask() {
+    public void cancelAddNewTaskTest() {
         String separatorWithDelimiter = "(?<=[?])";
         String expectedTitle = "Lets add new task!";
         String expectedText = "What do you want to do today?";
@@ -66,7 +66,7 @@ public class ToDoTest extends ToDoTestUtils {
     }
 
     @Test
-    public void addNewTaskWithoutTitle() {
+    public void addNewTaskWithoutTitleTest() {
         String expectedTitle = "Lets add new task!";
         String expectedMessage = "Oops, Cannot set an empty ToDo!!!";
 
@@ -80,7 +80,7 @@ public class ToDoTest extends ToDoTestUtils {
     }
 
     @Test
-    public void addNewTaskAndDelete() throws InterruptedException {
+    public void addNewTaskAndDeleteTest() throws InterruptedException {
         String expectedTitle = "Lets add new task!";
         String expectedInput = "Test";
         int expectedToDosCount = 1;
