@@ -1,4 +1,4 @@
-package com.example.yeshasprabhakar.todo.utils;
+package com.example.yeshasprabhakar.todo.withoutframework.utils;
 
 import org.junit.After;
 import org.junit.Before;

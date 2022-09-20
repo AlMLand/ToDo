@@ -1,19 +1,19 @@
-package com.example.yeshasprabhakar.todo;
+package com.example.yeshasprabhakar.todo.withoutframework;
 
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.ADD_NEW_TASK;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DAY_NIGHT_MODE;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DELETE_TASK;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.DESCRIPTION_MESSAGE;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_CANCEL;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_DONE;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_INPUT;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.NEW_TASK_TITLE;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.TASK_TITLE;
-import static com.example.yeshasprabhakar.todo.utils.ToDoLocators.TOAST_MESSAGE;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.ADD_NEW_TASK;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.DAY_NIGHT_MODE;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.DELETE_TASK;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.DESCRIPTION_MESSAGE;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.NEW_TASK_CANCEL;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.NEW_TASK_DONE;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.NEW_TASK_INPUT;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.NEW_TASK_TITLE;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.TASK_TITLE;
+import static com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoLocators.TOAST_MESSAGE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import com.example.yeshasprabhakar.todo.utils.ToDoTestUtils;
+import com.example.yeshasprabhakar.todo.withoutframework.utils.ToDoTestUtils;
 
 import org.junit.Assert;
 import org.junit.Test;
