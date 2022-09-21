@@ -80,7 +80,7 @@ public class ToDoTest extends ToDoTestUtils {
     }
 
     @Test
-    public void addNewTaskAndDeleteTest() throws InterruptedException {
+    public void addNewTaskAndDeleteTest() {
         String expectedTitle = "Lets add new task!";
         String expectedInput = "Test";
         int expectedToDosCount = 1;
@@ -112,7 +112,7 @@ public class ToDoTest extends ToDoTestUtils {
     }
 
     @Test
-    public void dayNightModeTest() throws InterruptedException {
+    public void dayNightModeTest() {
         String input = "Test";
 
         // make the app non-interactive for the test in 3 steps
