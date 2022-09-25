@@ -32,12 +32,8 @@ public class ToDo {
     }
 
     public void deleteSpecifiedToDo(final String toDoName) {
-        for (int i = 0; i < toDoNames.size(); i++) {
-            String toDoTitle = toDoNames.get(i).getText();
-            if (toDoTitle.equals(toDoName)) {
-                deleteButton.click();
-            }
-        }
+        toDoNames.stream()
+                .map(WebElement::getText).filter(name -> name.equals(toDoName)).forEach(name -> deleteButton.click());
     }
 
     public List<String> getAllToDoTitles() {

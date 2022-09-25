@@ -30,7 +30,7 @@ public class StartPage extends Actions {
     private WebElement darkModeButton;
     @CacheLookup
     @AndroidFindBy(xpath = "//(android.widget.Toast)[1]")
-    protected WebElement toast;
+    private WebElement toast;
 
     public StartPage(final AndroidDriver driver) {
         super(driver);
